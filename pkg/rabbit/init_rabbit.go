@@ -8,6 +8,22 @@ import (
 	"github.com/streadway/amqp"
 )
 
+//MessageBody is the struct for the body passed in the AMQP message. The type will be set on the Request header
+type MessageBody struct {
+	Data []byte
+	Type string
+}
+
+//Message is the amqp request to publish
+type Message struct {
+	Queue         string
+	ReplyTo       string
+	ContentType   string
+	CorrelationID string
+	Priority      uint8
+	Body          MessageBody
+}
+
 //Connection is the connection created
 type Connection struct {
 	name       string
