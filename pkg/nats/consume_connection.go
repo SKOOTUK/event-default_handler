@@ -9,14 +9,6 @@ import (
 
 //HandleDeliveries handles the consumed deliveries from the queues. Should be called only for a consumer connection
 func (c *Connection) HandleDeliveries(fn stan.MsgHandler) {
-	log.Println(
-		"HandleDeliveries:-",
-		c.routingKey, // subject
-		c.exchange,   // queue group
-		fn,           // message handler function
-		stan.DurableName(os.Getenv("NATS_DURABLE_NAME")),
-		stan.StartWithLastReceived())
-
 	_, err := c.conn.QueueSubscribe(
 		c.routingKey, // subject
 		c.exchange,   // queue group
