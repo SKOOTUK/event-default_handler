@@ -6,6 +6,7 @@ import (
 	"os"
 
 	sentry "github.com/getsentry/sentry-go"
+	"github.com/google/uuid"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 )
@@ -65,7 +66,7 @@ func (c *Connection) Connect() error {
 	}
 	c.conn, err = stan.Connect(
 		os.Getenv("NATS_CLUSTER_NAME"),
-		os.Getenv("NATS_CLIENT_NAME"),
+		os.Getenv("NATS_CLIENT_PREFIX")+uuid.New().String(),
 		stan.NatsConn(nc),
 		stan.Pings(10, 5),
 		stan.SetConnectionLostHandler(func(_ stan.Conn, reason error) {
