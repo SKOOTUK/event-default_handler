@@ -5,7 +5,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/SKOOTUK/event-default_handler/pkg/nats"
 	"github.com/SKOOTUK/event-default_handler/pkg/utils"
 	sentry "github.com/getsentry/sentry-go"
 	"github.com/nats-io/stan.go"
@@ -27,9 +26,11 @@ func (e *Init) HandleQueuedMessages() {
 	utils.SetupSentry()
 	defer sentry.Flush(2 * time.Second) // Flush buffered events before the program terminates
 
-	conn := nats.NewConnection(e.Name, e.TopicName, e.RoutingKey)
+	conn := NewConnection(e.Name, e.TopicName, e.RoutingKey)
 	if err := conn.Connect(); err != nil {
-		utils.FailOnError(err, "Failed to connect to NATS")
+		sentry.CaptureException(err)
+		log.Printf("reported to Sentry: %s", err)
+		log.Fatalf("%e", err)
 	}
 	defer conn.Close()
 
