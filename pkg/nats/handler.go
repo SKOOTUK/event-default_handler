@@ -1,5 +1,5 @@
 // Package handler a generic event handler that can be passed a function to process events.
-package handler
+package nats
 
 import (
 	"log"
@@ -8,15 +8,15 @@ import (
 	"github.com/SKOOTUK/event-default_handler/pkg/nats"
 	"github.com/SKOOTUK/event-default_handler/pkg/utils"
 	sentry "github.com/getsentry/sentry-go"
-	"github.com/nats-io/stan.go"
+	_nats "github.com/nats-io/nats.go"
 )
 
 // Init pointer receiver for configuring HandleQueuedMessages
 type Init struct {
 	Name           string
 	TopicName      string
-	RoutingKey     string // NATS RoutingKey cannot contain wildcards
-	MessageHandler stan.MsgHandler
+	RoutingKey     string
+	MessageHandler _nats.MsgHandler
 }
 
 // HandleQueuedMessages iterates and handles messages in queue based on config in init
