@@ -9,8 +9,9 @@ import (
 
 //HandleDeliveries handles the consumed deliveries from the queues.
 func (c *Connection) HandleDeliveries(fn stan.MsgHandler, mack bool) {
+	var err interface{} = nil
 	if mack {
-		_, err := c.conn.QueueSubscribe(
+		_, err = c.conn.QueueSubscribe(
 			c.routingKey, // subject
 			c.exchange,   // queue group
 			fn,           // message handler function
@@ -19,7 +20,7 @@ func (c *Connection) HandleDeliveries(fn stan.MsgHandler, mack bool) {
 			stan.SetManualAckMode(), // sets manual ack mode
 		)
 	} else {
-		_, err := c.conn.QueueSubscribe(
+		_, err = c.conn.QueueSubscribe(
 			c.routingKey, // subject
 			c.exchange,   // queue group
 			fn,           // message handler function
