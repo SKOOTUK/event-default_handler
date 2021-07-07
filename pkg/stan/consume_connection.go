@@ -18,8 +18,7 @@ func (c *Connection) HandleDeliveries(fn stan.MsgHandler, mack bool) {
 			stan.StartWithLastReceived(),
 			stan.SetManualAckMode(), // sets manual ack mode
 		)
-	}
-	else {
+	} else {
 		_, err := c.conn.QueueSubscribe(
 			c.routingKey, // subject
 			c.exchange,   // queue group
