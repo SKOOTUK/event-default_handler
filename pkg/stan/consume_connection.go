@@ -9,7 +9,7 @@ import (
 
 //HandleDeliveries handles the consumed deliveries from the queues.
 func (c *Connection) HandleDeliveries(fn stan.MsgHandler, mack bool) {
-	var err interface{} = nil
+	var err error = nil
 	if mack {
 		_, err = c.conn.QueueSubscribe(
 			c.routingKey, // subject
