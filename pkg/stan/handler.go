@@ -16,6 +16,7 @@ type Init struct {
 	TopicName      string
 	RoutingKey     string // STAN RoutingKey cannot contain wildcards
 	MessageHandler stan.MsgHandler
+	SetManualAck   bool
 }
 
 // HandleQueuedMessages iterates and handles messages in queue based on config in init
@@ -37,7 +38,7 @@ func (e *Init) HandleQueuedMessages() {
 	// Iterate NATS queue
 	forever := make(chan bool)
 
-	conn.HandleDeliveries(e.MessageHandler)
+	conn.HandleDeliveries(e.MessageHandler, e.SetManualAck)
 
 	log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
 
